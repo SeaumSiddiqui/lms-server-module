@@ -16,9 +16,11 @@ public class Course {
     @GeneratedValue
     private Long id;
     private String courseName;
-    private String author;
 
-    @ManyToMany(mappedBy = "enrolled")
+    @JoinColumn(name = "teacher_id")
+    private User teacher;
+
+    @ManyToMany(mappedBy = "coursesEnrolled")
     private List<User> students;
     @OneToMany(mappedBy = "course")
     private List<Lecture> lectures;
