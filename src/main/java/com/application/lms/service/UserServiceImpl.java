@@ -1,6 +1,6 @@
 package com.application.lms.service;
 
-import com.application.lms.controller.RegistrationRequest;
+import com.application.lms.controller.UserRegistrationRequest;
 import com.application.lms.domain.User;
 import com.application.lms.domain.UserRole;
 import com.application.lms.repository.UserRepository;
@@ -12,11 +12,11 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class UserService implements IUserService {
+public class UserServiceImpl implements IUserService {
     private final UserRepository repository;
 
     @Override
-    public List<User> getUsers() {
+    public List<User> userList() {
         return repository.findAll();
     }
 
@@ -26,12 +26,12 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public User addUser(RegistrationRequest request) { // --TODO
+    public User createUser(UserRegistrationRequest request) { // --TODO move
         var user = User.builder()
                 .firstname(request.getFirstname())
                 .lastname(request.getLastname())
                 .email(request.getEmail())
-                .password(request.getPassword())
+                .password(request.getPassword()) // -TODo  encode
                 .department(request.getDepartment())
                 .role(request.getRole())
                 .build();
@@ -50,9 +50,8 @@ public class UserService implements IUserService {
             st.setFirstname(user.getFirstname());
             st.setLastname(user.getLastname());
             st.setEmail(user.getEmail());
-            st.setPassword(user.getPassword()); // --TODO
+            st.setPassword(user.getPassword()); // --TODO encode
             st.setDepartment(user.getDepartment());
-            st.setRole(user.getRole());
             return repository.save(st);
         }).orElseThrow(() -> new UsernameNotFoundException("Could not find user to update"));
     }

@@ -2,7 +2,7 @@ package com.application.lms.controller;
 
 import com.application.lms.domain.User;
 import com.application.lms.domain.UserRole;
-import com.application.lms.service.UserService;
+import com.application.lms.service.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,11 +13,11 @@ import java.util.List;
 @RequestMapping("api/user")
 @RequiredArgsConstructor
 public class UserController {
-    private final UserService service;
+    private final UserServiceImpl service;
 
     @GetMapping
-    public ResponseEntity<List<User>> getUsers() {
-        return ResponseEntity.ok(service.getUsers());
+    public ResponseEntity<List<User>> userList() {
+        return ResponseEntity.ok(service.userList());
     }
 
     @GetMapping("/{role}")
@@ -27,8 +27,8 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<User> addUser(@RequestBody RegistrationRequest request) {
-        return ResponseEntity.ok(service.addUser(request));
+    public ResponseEntity<User> createUser(@RequestBody UserRegistrationRequest request) {
+        return ResponseEntity.ok(service.createUser(request));
     }
 
     @GetMapping("/id-{id}")

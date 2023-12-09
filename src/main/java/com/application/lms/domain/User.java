@@ -39,7 +39,7 @@ public class User implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "course_id")
     )
     private List<Course> coursesEnrolled;
-    @OneToMany(mappedBy = "teacher")
+    @OneToMany(mappedBy = "author")
     private List<Course> coursesCreated;
 
     @Override
