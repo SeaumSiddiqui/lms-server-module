@@ -18,7 +18,6 @@ public class Course {
     @GeneratedValue
     private Long id;
     private String courseTitle;
-    private String subject;
 
     @ManyToOne
     @JoinColumn(name = "teacher_id")

@@ -12,6 +12,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CourseRegistrationRequest {
     private String courseTitle;
-    private String subject;
     private User author;
 }
