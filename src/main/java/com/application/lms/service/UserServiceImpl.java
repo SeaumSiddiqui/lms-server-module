@@ -1,15 +1,15 @@
 package com.application.lms.service;
 
+import com.application.lms.exception.UserNotFoundException;
 import com.application.lms.controller.UserRegistrationRequest;
-import com.application.lms.domain.Course;
 import com.application.lms.domain.User;
 import com.application.lms.domain.UserRole;
 import com.application.lms.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -22,7 +22,7 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public User createUser(UserRegistrationRequest request) { // --TODO move
+    public User createUser(UserRegistrationRequest request) { // --TODO move and add exception already exist
         var user = User.builder()
                 .firstname(request.getFirstname())
                 .lastname(request.getLastname())
@@ -37,7 +37,7 @@ public class UserServiceImpl implements IUserService {
     @Override
     public User getUserById(Long id) {
         return repository.findById(id)
-                .orElseThrow(() -> new UsernameNotFoundException("Could not find the user"));
+                .orElseThrow(() -> new UserNotFoundException("Couldn't load the user"));
     }
 
     @Override
@@ -49,20 +49,21 @@ public class UserServiceImpl implements IUserService {
             st.setPassword(user.getPassword()); // --TODO encode
             st.setDepartment(user.getDepartment());
             return repository.save(st);
-        }).orElseThrow(() -> new UsernameNotFoundException("Could not find user to update"));
+        }).orElseThrow(() -> new UserNotFoundException("Couldn't find user to update"));
     }
 
     @Override
     public void deleteUser(Long id) {
         if (!repository.existsById(id)) {
-            throw new RuntimeException("User not found");
+            throw new UserNotFoundException("Unable to delete user");
         }
         repository.deleteById(id);
     }
 
     @Override
     public List<User> getUsersByRole(UserRole role) {
-        return repository.findByRole(role);
+        return Optional.of(repository.findByRole(role))
+                .orElseThrow(()-> new UserNotFoundException("No user found"));
     }
 
 
