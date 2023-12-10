@@ -1,6 +1,7 @@
 package com.application.lms.service;
 
 import com.application.lms.controller.UserRegistrationRequest;
+import com.application.lms.domain.Course;
 import com.application.lms.domain.User;
 import com.application.lms.domain.UserRole;
 import com.application.lms.repository.UserRepository;
@@ -18,11 +19,6 @@ public class UserServiceImpl implements IUserService {
     @Override
     public List<User> userList() {
         return repository.findAll();
-    }
-
-    @Override
-    public List<User> getUsersByRole(UserRole role) {
-        return repository.findByRole(role);
     }
 
     @Override
@@ -63,4 +59,11 @@ public class UserServiceImpl implements IUserService {
         }
         repository.deleteById(id);
     }
+
+    @Override
+    public List<User> getUsersByRole(UserRole role) {
+        return repository.findByRole(role);
+    }
+
+
 }

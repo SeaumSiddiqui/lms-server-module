@@ -1,6 +1,8 @@
 package com.application.lms.controller;
 
 import com.application.lms.domain.Course;
+import com.application.lms.domain.Lecture;
+import com.application.lms.domain.User;
 import com.application.lms.service.CourseServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -20,8 +22,8 @@ public class CourseController {
     }
 
     @PostMapping
-    public ResponseEntity<Course> createCourse(@RequestBody CourseRegistrationRequest request) {
-        return ResponseEntity.ok(service.createCourse(request));
+    public ResponseEntity<Course> createCourse(@RequestBody Course course) {
+        return ResponseEntity.ok(service.createCourse(course));
     }
 
     @GetMapping("/id-{id}")
@@ -38,5 +40,17 @@ public class CourseController {
     public ResponseEntity<String> deleteCourse(@PathVariable Long id) {
         service.deleteCourse(id);
         return ResponseEntity.ok("Successfully deleted");
+    }
+
+    @GetMapping("/{id}/students")
+    public ResponseEntity<List<User>> studentsEnrolled(@PathVariable Long id) {
+        Course course = service.getCourseById(id);
+        return ResponseEntity.ok(course.getStudents());
+    }
+
+    @GetMapping("/{id}/lectures")
+    public ResponseEntity<List<Lecture>> lecturesUploaded(@PathVariable Long id) {
+        Course course = service.getCourseById(id);
+        return ResponseEntity.ok(course.getLectures());
     }
 }

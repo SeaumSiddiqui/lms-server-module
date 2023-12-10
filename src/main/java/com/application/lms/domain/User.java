@@ -32,8 +32,6 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
-    // --TODO create endpoint for these two list
-
     @ManyToMany
     @JoinTable(
             name = "enrolled",

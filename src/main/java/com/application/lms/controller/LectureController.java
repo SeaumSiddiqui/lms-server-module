@@ -14,11 +14,6 @@ import java.util.List;
 public class LectureController {
     private final LectureServiceImpl service;
 
-    @GetMapping
-    public ResponseEntity<List<Lecture>> lectureList() {
-        return ResponseEntity.ok(service.lectureList());
-    }
-
     @PostMapping
     public ResponseEntity<Lecture> createLecture(@RequestBody Lecture lecture) {
         return ResponseEntity.ok(service.createLecture(lecture));

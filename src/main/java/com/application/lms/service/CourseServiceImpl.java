@@ -1,6 +1,5 @@
 package com.application.lms.service;
 
-import com.application.lms.controller.CourseRegistrationRequest;
 import com.application.lms.domain.Course;
 import com.application.lms.repository.CourseRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,11 +17,7 @@ public class CourseServiceImpl {
         return repository.findAll();
     }
 
-    public Course createCourse(CourseRegistrationRequest request) {
-        var course = Course.builder()
-                .courseTitle(request.getCourseTitle())
-                .author(request.getAuthor())
-                .build();
+    public Course createCourse(Course course) {
         return repository.save(course);
     }
 
