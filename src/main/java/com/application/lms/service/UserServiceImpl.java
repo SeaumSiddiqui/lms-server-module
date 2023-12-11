@@ -1,11 +1,11 @@
 package com.application.lms.service;
 
 import com.application.lms.exception.UserNotFoundException;
-import com.application.lms.controller.UserRegistrationRequest;
 import com.application.lms.domain.User;
 import com.application.lms.domain.UserRole;
 import com.application.lms.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,23 +15,11 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserServiceImpl implements IUserService {
     private final UserRepository repository;
+    private final PasswordEncoder encoder;
 
     @Override
     public List<User> userList() {
         return repository.findAll();
-    }
-
-    @Override
-    public User createUser(UserRegistrationRequest request) { // --TODO move and add exception already exist
-        var user = User.builder()
-                .firstname(request.getFirstname())
-                .lastname(request.getLastname())
-                .email(request.getEmail())
-                .password(request.getPassword()) // -TODo  encode
-                .department(request.getDepartment())
-                .role(request.getRole())
-                .build();
-        return repository.save(user);
     }
 
     @Override
@@ -46,7 +34,7 @@ public class UserServiceImpl implements IUserService {
             st.setFirstname(user.getFirstname());
             st.setLastname(user.getLastname());
             st.setEmail(user.getEmail());
-            st.setPassword(user.getPassword()); // --TODO encode
+            st.setPassword(encoder.encode(user.getPassword()));
             st.setDepartment(user.getDepartment());
             return repository.save(st);
         }).orElseThrow(() -> new UserNotFoundException("Couldn't find user to update"));

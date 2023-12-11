@@ -1,4 +1,4 @@
-package com.application.lms.controller;
+package com.application.lms.authentication;
 
 import com.application.lms.domain.UserRole;
 import lombok.AllArgsConstructor;
@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserRegistrationRequest {
+public class RegistrationRequest {
     private String firstname;
     private String lastname;
     private String email;

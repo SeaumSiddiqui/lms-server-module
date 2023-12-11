@@ -18,12 +18,13 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 public class SecurityConfiguration {
     private final JwtAuthenticationFilter jwtFilter;
     private final AuthenticationProvider authenticationProvider;
+    public static final String[] WHITE_LIST = {"api/auth/**", "api/user/**"};
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(req-> req.requestMatchers("")
+                .authorizeHttpRequests(req-> req.requestMatchers(WHITE_LIST)
                         .permitAll()
                         .anyRequest()
                         .authenticated())
